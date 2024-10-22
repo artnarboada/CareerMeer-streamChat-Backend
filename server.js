@@ -32,9 +32,9 @@ app.post('/', (req, res) => {
     }
 });
 
-// app.get('/', (req, res) => {
-//     res.send('Server is up and running!');
-// });
+app.get('/', (req, res) => {
+    res.send('Server is up and running!');
+});
 
 
 // Start the server
