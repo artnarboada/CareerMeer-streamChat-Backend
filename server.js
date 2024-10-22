@@ -1,18 +1,21 @@
+const express = require('express');
 const { StreamChat } = require('stream-chat');
 const dotenv = require('dotenv');
 
 // Load environment variables
 dotenv.config();
 
+const app = express();
+const port = process.env.PORT || 3000;
+
 // Initialize the Stream Chat server client
 const serverClient = StreamChat.getInstance(process.env.STREAM_API_KEY, process.env.STREAM_API_SECRET);
 
-module.exports = async (req, res) => {
-    // Middleware to parse JSON bodies
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
+// Middleware to parse JSON bodies
+app.use(express.json());
 
+// Endpoint to generate a token
+app.post('/generate_token', (req, res) => {
     const { userId } = req.body;
 
     if (!userId) {
@@ -27,4 +30,9 @@ module.exports = async (req, res) => {
         console.error('Error generating token:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
-};
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
