@@ -32,6 +32,11 @@ app.post('/generate_token', (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('Server is up and running!');
+});
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
