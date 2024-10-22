@@ -15,7 +15,7 @@ const serverClient = StreamChat.getInstance(process.env.STREAM_API_KEY, process.
 app.use(express.json());
 
 // Endpoint to generate a token
-app.post('/generate_token', (req, res) => {
+app.post('/', (req, res) => {
     const { userId } = req.body;
 
     if (!userId) {
@@ -32,9 +32,9 @@ app.post('/generate_token', (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Server is up and running!');
-});
+// app.get('/', (req, res) => {
+//     res.send('Server is up and running!');
+// });
 
 
 // Start the server
