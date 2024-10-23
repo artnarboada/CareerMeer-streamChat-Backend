@@ -34,7 +34,8 @@ app.post('/', (req, res) => {
 
 //Endpoint to save loginUser to streamchat
 // Endpoint to upsert a user into Stream Chat
-app.post('/upsert-user', (req, res) => {
+// Endpoint to upsert a user into Stream Chat
+app.post('/upsert-user', async (req, res) => {
     const { userId, userName } = req.body;
 
     if (!userId || !userName) {
@@ -44,12 +45,13 @@ app.post('/upsert-user', (req, res) => {
     try {
         // Upsert the user to Stream Chat
         const user = { id: userId, name: userName };
-        serverClient.upsertUser(user);
+        await serverClient.upsertUser(user);
+        console.log(`User upserted: ${userId}, Name: ${userName}`);
 
         return res.status(200).json({ message: 'User upserted successfully' });
     } catch (error) {
         console.error('Error upserting user:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error while upserting user' });
     }
 });
 
