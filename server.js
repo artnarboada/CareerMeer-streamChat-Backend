@@ -32,6 +32,30 @@ app.post('/', (req, res) => {
     }
 });
 
+//Endpoint to save loginUser to streamchat
+// Endpoint to upsert a user into Stream Chat
+app.post('/upsert-user', (req, res) => {
+    const { userId, userName } = req.body;
+
+    if (!userId || !userName) {
+        return res.status(400).json({ error: 'userId and userName are required' });
+    }
+
+    try {
+        // Upsert the user to Stream Chat
+        const user = { id: userId, name: userName };
+        serverClient.upsertUser(user);
+
+        return res.status(200).json({ message: 'User upserted successfully' });
+    } catch (error) {
+        console.error('Error upserting user:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
+
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
 });
