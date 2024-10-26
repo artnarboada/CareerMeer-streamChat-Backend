@@ -24,10 +24,13 @@ app.post('/', (req, res) => {
 
     try {
         // Generate a token for the user
- const token = serverClient.createToken({
+        serverClient.upsertUser({
             id: userId,
             role: "admin"
-        });        return res.status(200).json({ token });
+        })
+
+        const token = serverClient.createToken(userId);
+        return res.status(200).json({ token });
     } catch (error) {
         console.error('Error generating token:', error);
         return res.status(500).json({ error: 'Internal server error' });
